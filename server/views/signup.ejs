@@ -7,15 +7,22 @@
     <script src="/javascripts/signup.js"></script>  
    </head>
   <body>
-	   <div class="login">
+	   <div class="login" id="login-div">
 	  	  <header class="login-header">
 	  	  	<span class="text">Begin your journey!</span>
 	  	  	<span class="loader"></span>
 	  	  </header>
 		  <form class="login-form">
-		  	<input type="text" placeholder="Salesforce Email" class="login-input"/>
-		    <button type="submit" class="login-btn">login</button>
+		  	<input type="text" placeholder="Salesforce Email" class="login-input" id="email-input" autocomplete="off"/>
+		  	<span id="email-input-error" class="emailvalidator"></span>
+		  	<span id="validation-msg" class="formValidatorMsg">Enter a valid salesforce.com address</span>
+		  	<button type="submit" class="login-btn">login</button>
 		  </form>
+		  <div class="confirmEmailMsg">Onboarded! Check your email for confirmation code.</div>
 		</div>
+
+		
+
+
   </body>
 </html>

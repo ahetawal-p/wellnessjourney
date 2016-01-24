@@ -110,14 +110,13 @@ body {
 }
 
 .login-input {
-  display: block;
-  width: 100%;
+  width: 93%;
   font-size: 1.5rem;
-  padding: 0.5rem 1rem;
+  padding: 0.3rem;
   box-shadow: none;
   border-color: #ccc;
   border-width: 0 0 2px 0;
-  margin: 50px 0 0 0px;
+  margin: 60px 0 0 0px;
 }
 
 
@@ -158,4 +157,26 @@ body {
 }
 .login-btn:hover:after, .login-btn:focus:after, .login-btn:active:after {
   border-left-color: orange;
+}
+
+.emailvalidator {
+	width: 16px;
+    height: 16px;
+    display: inline-block;
+}
+
+.formValidatorMsg {
+	display: none;
+	font-size: .8rem;
+	color: red;
+}
+
+.confirmEmailMsg {
+	display: none;
+	padding-left: 2.5rem;
+	padding-top: 2.5rem;
+  	border-width: 0 0 2px 0;
+  	margin: 75px 0 0 0px;
+  	font-size: 1rem;
+	color: green;
 }
