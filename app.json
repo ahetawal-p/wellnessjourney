@@ -1,5 +1,6 @@
 {
     "name": "wellnessjourney",
+    "repository": "https://github.com/ahetawal/wellnessjourney",
     "description": "Wellness Journey application",
-    "addons": ["heroku-postgresql:hobby-dev"]
+    "addons": ["heroku-postgresql:hobby-dev", "logentries"]
 }
