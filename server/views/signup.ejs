@@ -3,7 +3,7 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/signup.css' />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/javascripts/jquery.min.2.2.0.js"></script>
     <script src="/javascripts/signup.js"></script>  
    </head>
   <body>
@@ -12,7 +12,7 @@
 	  	  	<span class="text">Begin your journey!</span>
 	  	  	<span class="loader"></span>
 	  	  </header>
-		  <form class="login-form">
+		  <form class="login-form" >
 		  	<input type="text" placeholder="Salesforce Email" class="login-input" id="email-input" autocomplete="off"/>
 		  	<span id="email-input-error" class="emailvalidator"></span>
 		  	<span id="validation-msg" class="formValidatorMsg">Enter a valid salesforce.com address</span>
@@ -20,9 +20,5 @@
 		  </form>
 		  <div class="confirmEmailMsg">Onboarded! Check your email for confirmation code.</div>
 		</div>
-
-		
-
-
   </body>
 </html>

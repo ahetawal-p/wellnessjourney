@@ -14,10 +14,22 @@ $(document).ready(function() {
 		  if(!isValidEmailAddress(email)){
 		  	$("#validation-msg").show();
 		  } else {
-		  	// TODO: make ajax call for registering user
-		 	//$('.login').removeClass('focused').addClass('loading');
-		 	$('.login-form').hide();
-		 	$('.confirmEmailMsg').show();
+		  	$('.login').removeClass('focused').addClass('loading');
+		 	var posting = $.post( "/register", { user_email:  email.trim()});
+		 	posting.done(function(data){
+		  		$('.text').text('Get Ready...');
+		  	});
+
+		  	posting.fail(function(data){
+		  		console.log("Error registering " + JSON.stringify(data));
+		  		$('.confirmEmailMsg').text("Error registering. Please try again!");
+		  	});
+
+		  	posting.always(function(data){
+		  		$('.login-form').hide();
+		  		$('.confirmEmailMsg').show();
+		 		$('.login').removeClass('loading');
+		  	});
 		 }
 	});
 
