@@ -42,20 +42,15 @@ $("#email-input").keyup(function(){
 		if(email != 0) {
         	email = email.trim();
             if(isValidEmailAddress(email)) {
-                $("#email-input-error").css({
-                    "background-image": "url('../images/accept.png')"
-                });
+                $("#email-input-error").removeClass('invalid');
+                $("#email-input-error").addClass('valid');
             } else {
-                $("#email-input-error").css({
-                    "background-image": "url('../images/exclamation.png')"
-                });
+                $("#email-input-error").addClass('invalid');
             }
         } else {
-            $("#email-input-error").css({
-                "background-image": "none"
-            });
+            $("#email-input-error").attr('class', 'emailvalidator');
         }
-         $("#validation-msg").hide();    
+        $("#validation-msg").hide();    
     }
 
 	function isValidEmailAddress(emailAddress) {

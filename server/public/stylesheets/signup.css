@@ -24,22 +24,11 @@ body {
   width: 2rem;
 }
 
-.login:focus > .login-header, .login.focused > .login-header {
-  width: 2rem;
-}
-
 .login:hover > .login-header > .text, .login.focused > .login-header > .text {
   font-size: 1rem;
   margin-top: 30px;
   transform: rotate(-90deg);
 }
-
-.login:focus > .login-header > .text, .login.focused > .login-header > .text {
-  font-size: 1rem;
-  margin-top: 30px;
-  transform: rotate(-90deg);
-}
-
 
 .login.loading > .login-header {
   width: 30rem;
@@ -173,8 +162,16 @@ body {
 
 .emailvalidator {
 	width: 16px;
-    height: 16px;
-    display: inline-block;
+  height: 16px;
+  display: inline-block;
+}
+
+.emailvalidator.invalid{
+  background-image: url('../images/exclamation.png')
+}
+
+.emailvalidator.valid{
+  background-image: url('../images/accept.png')
 }
 
 .formValidatorMsg {
