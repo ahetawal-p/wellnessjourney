@@ -2,12 +2,21 @@ var express = require('express');
 var crypto = require('crypto');
 var templateUtil = require('../util/ejsutil.js');
 var emailUtil = require('../util/emailutil.js');
+var dbUtil = require('../util/dbutil.js');
+
+
 var router = express.Router();
 
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('signup', { title: 'Sign Up!!' });
+
+	// dbUtil.query("SELECT * from items1")
+ //        .then(function (stores) {
+ //            console.log(JSON.stringify(stores));
+ //        }).catch(next);
+
+  	res.render('signup', { title: 'Sign Up!!' });
 });
 
 router.get('/signup', function(req, res, next) {

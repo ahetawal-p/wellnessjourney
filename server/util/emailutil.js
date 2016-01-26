@@ -1,7 +1,8 @@
 var mailer = require("nodemailer");
+var constants = require('../util/constants.js');
 
-var email_sender_id = process.env.email_sender_id;
-var email_sender_pass = process.env.email_sender_pass;
+var email_sender_id = constants.email_sender_id;
+var email_sender_pass = constants.email_sender_pass;
 
 
 // Use Smtp Protocol to send Email
