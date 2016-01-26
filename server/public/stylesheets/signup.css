@@ -27,6 +27,7 @@ body {
 .login:hover > .login-header > .text, .login.focused > .login-header > .text {
   font-size: 1rem;
   margin-top: 30px;
+  text-align: inherit;
   transform: rotate(-90deg);
 }
 

@@ -23,6 +23,8 @@ $(document).ready(function() {
 		  	posting.fail(function(data){
 		  		console.log("Error registering " + JSON.stringify(data));
 		  		$('.confirmEmailMsg').text("Error registering. Please try again!");
+                $('.text').text('Try again :(');
+
 		  	});
 
 		  	posting.always(function(data){

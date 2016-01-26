@@ -1,5 +1,6 @@
 var mailer = require("nodemailer");
 var constants = require('../util/constants.js');
+var Q = require('q');
 
 var email_sender_id = constants.email_sender_id;
 var email_sender_pass = constants.email_sender_pass;
@@ -24,14 +25,16 @@ var sendMail = function(content, toEmail) {
 	payload.html = content;
 	payload.to = toEmail;
 
-	console.log(payload);
+	var deferred = Q.defer();
 	smtpTransport.sendMail(payload, function(error) {
 		if (error) {
-		 	console.log(error);
+		 	deferred.reject(error);
 		 } else {
-	  		console.log("SENDING EMAIL");
+	  		deferred.resolve("Success");
 	  	}
+
 	});
+	return deferred.promise;
 }
 
 

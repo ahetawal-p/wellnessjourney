@@ -26,15 +26,26 @@ router.get('/signup', function(req, res, next) {
 router.post('/register', function(req, res, next) {
 	var userEmail = req.body.user_email;
 	console.log("HERE is the email passed.. " + userEmail);
-	
 	//*** TODO : REMOVE THIS LATER
 		userEmail = "amit.hetawal@gmail.com";
 	// ******
-
 	var confirmToken = generateRandomValueHex(12);
-	var emailBody = templateUtil.getConfirmEmailHTML(req.host, req.app.settings.port, confirmToken);
-	emailUtil.sendMail(emailBody, userEmail);
-  	res.send('Success');
+
+	dbUtil.query("INSERT INTO USER_TABLE (userEmail, token) values ($1, $2)", [userEmail, confirmToken])
+				.then(function(result){
+					var emailBody = templateUtil.getConfirmEmailHTML(req.hostname, req.app.settings.port, confirmToken);
+					return emailUtil.sendMail(emailBody, userEmail);
+				}).done(function(successResult){
+							console.log("Sucess >> " + successResult);
+							res.send('Success');
+						},
+						function(errorResult){
+							console.log("Error >> " + JSON.stringify(errorResult));
+							console.log("Doing Cleanup now for the user entries...");
+							dbUtil.query("DELETE FROM USER_TABLE WHERE userEmail=($1)", [userEmail]);
+							next(errorResult);
+						});
+
 });
 
 router.get('/confirm', function(req, res, next) {
