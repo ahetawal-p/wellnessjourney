@@ -18,7 +18,7 @@ $(document).ready(function() {
 		 	var posting = $.post( "/register", { user_email:  email.trim()});
 		 	posting.done(function(data){
 		  		$('.text').text('Get Ready...');
-		  	});
+            });
 
 		  	posting.fail(function(data){
 		  		console.log("Error registering " + JSON.stringify(data));
@@ -31,6 +31,7 @@ $(document).ready(function() {
 		  		$('.login-form').hide();
 		  		$('.confirmEmailMsg').show();
 		 		$('.login').removeClass('loading');
+                $('.login').addClass('focused');
 		  	});
 		 }
 	});
