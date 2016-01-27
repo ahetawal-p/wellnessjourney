@@ -26,7 +26,11 @@ exports.query = function (sql, values, singleItem, dontLog) {
                 if (err) {
                     deferred.reject(err);
                 } else {
-                    deferred.resolve(singleItem ? result.rows[0] : result.rows);
+                    if(result.command == 'UPDATE' || result.command == 'INSERT'){
+                        deferred.resolve(result.rowCount);
+                    } else {
+                        deferred.resolve(singleItem ? result.rows[0] : result.rows);
+                    }
                 }
             });
         }

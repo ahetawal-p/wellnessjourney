@@ -2,18 +2,21 @@ var ejs = require('ejs');
 var fs = require('fs');
 var path = require('path');
 var confirmEmailBody = fs.readFileSync(path.join(__dirname, '../views/confirm-email.ejs'), 'utf8');
+var querystring = require("querystring");
 
-var getConfirmEmailHTML = function(host, port, registerToken){
+var getConfirmEmailHTML = function(host, port, registerToken, userEmail){
 	var baseUrl;
 	if(host == 'localhost'){
 		baseUrl = "http://" + host + ":" + port + "/";
 	}else {
 		baseUrl = "http://" + host + "/";
 	}
-	var registerUrl = baseUrl + "confirm?token=" + registerToken; 
+	var params = querystring.stringify({ token: registerToken, email: userEmail});
+	console.log("QUERY IS >> " + params);
+
+	var registerUrl = baseUrl + "confirm?" + params;
 	var imageUrl = baseUrl + "images/journey.jpg";
 	var html = ejs.render(confirmEmailBody, { url: registerUrl, image: imageUrl });
-	//console.log(html);
 	return html;
 }
 

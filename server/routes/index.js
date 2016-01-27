@@ -3,6 +3,7 @@ var crypto = require('crypto');
 var templateUtil = require('../util/ejsutil.js');
 var emailUtil = require('../util/emailutil.js');
 var dbUtil = require('../util/dbutil.js');
+var url  = require('url');
 
 
 var router = express.Router();
@@ -33,7 +34,7 @@ router.post('/register', function(req, res, next) {
 
 	dbUtil.query("INSERT INTO USER_TABLE (userEmail, token) values ($1, $2)", [userEmail, confirmToken])
 				.then(function(result){
-					var emailBody = templateUtil.getConfirmEmailHTML(req.hostname, req.app.settings.port, confirmToken);
+					var emailBody = templateUtil.getConfirmEmailHTML(req.hostname, req.app.settings.port, confirmToken, userEmail);
 					return emailUtil.sendMail(emailBody, userEmail);
 				}).done(function(successResult){
 							console.log("Sucess >> " + successResult);
@@ -49,9 +50,23 @@ router.post('/register', function(req, res, next) {
 });
 
 router.get('/confirm', function(req, res, next) {
-	var userToken = req.query.token;
-	res.send("Your seat is confirmed. Sit back and relax !! " + userToken);
-	
+	var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var userToken = query.token;
+    var userEmail = query.email;
+    dbUtil.query("UPDATE USER_TABLE set isConfirmed=($1), updatedAt=($2) where userEmail=($3) and token=($4) and isConfirmed=($5)", ["true", new Date(), userEmail, userToken, "false"])
+    	.done(function(updateCount){
+    			console.log("UPDATE COUNT IS >> " + updateCount);
+    			if(updateCount == 1){
+    				res.send("Your seat is confirmed. Sit back and relax !! ");
+    			} else {
+    				res.send("Invalid Confirmation request...");
+    			}
+    		},
+    		function(error){
+    			console.log(error);
+    			next(error);
+    	});
 });
 
 
