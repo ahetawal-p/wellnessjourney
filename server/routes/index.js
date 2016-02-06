@@ -61,7 +61,7 @@ router.get('/confirm', function(req, res, next) {
     var query = url_parts.query;
     var userToken = query.token;
     var userEmail = query.email;
-    dbUtil.query("UPDATE salesforce.contact set \"testAmit__wellness_onboarded__c\"=($1) where email=($2) and \"testAmit__email_validation_token__c\"=($3) and \"testAmit__wellness_onboarded__c\"=($4)", ["true", userEmail, userToken, "false"])
+    dbUtil.query("UPDATE salesforce.contact set testAmit__wellness_onboarded__c=($1) where email=($2) and testAmit__email_validation_token__c=($3) and testAmit__wellness_onboarded__c=($4)", ["true", userEmail, userToken, "false"])
     	.done(function(updateCount){
     			console.log("UPDATE COUNT IS >> " + updateCount);
     			if(updateCount == 1){
@@ -78,7 +78,7 @@ router.get('/confirm', function(req, res, next) {
 
 
 var insertNewUser = function(req, res, userEmail, userName, confirmToken, next){
-	dbUtil.query("INSERT INTO salesforce.contact (email, \"testAmit__email_validation_token__c\", lastname, name) values ($1, $2, $3, $3)", [userEmail, confirmToken, userName])
+	dbUtil.query("INSERT INTO salesforce.contact (email, testAmit__email_validation_token__c, lastname, name) values ($1, $2, $3, $3)", [userEmail, confirmToken, userName])
 				.then(function(result){
 					var emailBody = templateUtil.getConfirmEmailHTML(req.hostname, req.app.settings.port, confirmToken, userEmail);
 					return emailUtil.sendMail(emailBody, userEmail);
