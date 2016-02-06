@@ -11,18 +11,28 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-
-	// dbUtil.query("SELECT * from items1")
- //        .then(function (stores) {
- //            console.log(JSON.stringify(stores));
- //        }).catch(next);
-
-  	res.render('signup', { title: 'Sign Up!!' });
+	res.render('signup', { title: 'Wellness Journey' });
 });
 
 router.get('/signup', function(req, res, next) {
-	res.render('signup', { title: 'Sign Up!!' });
+	res.render('signup', { title: 'Wellness Journey' });
 });
+
+
+router.get('/delete', function(req, res, next) {
+	var userEmail = req.query.email;
+	dbUtil.query("DELETE FROM USER_TABLE WHERE userEmail=($1)", [userEmail])
+	.done(function(result){
+		res.send("Deleted " + userEmail);
+	},
+    function(error){
+    	console.log(error);
+    	next(error);
+	});
+	
+});
+
+
 
 router.post('/register', function(req, res, next) {
 	var userEmail = req.body.user_email;
@@ -32,20 +42,16 @@ router.post('/register', function(req, res, next) {
 	// ******
 	var confirmToken = generateRandomValueHex(12);
 
-	dbUtil.query("INSERT INTO USER_TABLE (userEmail, token) values ($1, $2)", [userEmail, confirmToken])
-				.then(function(result){
-					var emailBody = templateUtil.getConfirmEmailHTML(req.hostname, req.app.settings.port, confirmToken, userEmail);
-					return emailUtil.sendMail(emailBody, userEmail);
-				}).done(function(successResult){
-							console.log("Sucess >> " + successResult);
-							res.send('Success');
-						},
-						function(errorResult){
-							console.log("Error >> " + JSON.stringify(errorResult));
-							console.log("Doing Cleanup now for the user entries...");
-							dbUtil.query("DELETE FROM USER_TABLE WHERE userEmail=($1)", [userEmail]);
-							next(errorResult);
-						});
+	dbUtil.query("SELECT COUNT(*) FROM USER_TABLE where userEmail=($1)", [userEmail], true)
+		.then(function(result){
+			if(result && result.count == 0) {
+				console.log("Inserting");
+				insertNewUser(req, res, userEmail, confirmToken);
+			} else {
+				console.log("Not inserting");
+				return next(new Error('User Already Registered'));
+			}
+		});
 
 });
 
@@ -68,6 +74,25 @@ router.get('/confirm', function(req, res, next) {
     			next(error);
     	});
 });
+
+
+var insertNewUser = function(req, res, userEmail, confirmToken){
+	dbUtil.query("INSERT INTO USER_TABLE (userEmail, token) values ($1, $2)", [userEmail, confirmToken])
+				.then(function(result){
+					var emailBody = templateUtil.getConfirmEmailHTML(req.hostname, req.app.settings.port, confirmToken, userEmail);
+					return emailUtil.sendMail(emailBody, userEmail);
+				}).done(function(successResult){
+							console.log("Sucess >> " + successResult);
+							res.send('Success');
+						},
+						function(errorResult){
+							console.log("Error >> " + JSON.stringify(errorResult));
+							console.log("Doing Cleanup now for the user entries...");
+							dbUtil.query("DELETE FROM USER_TABLE WHERE userEmail=($1)", [userEmail]);
+							next(errorResult);
+						});
+}
+
 
 
 var generateRandomValueHex = function(len) {

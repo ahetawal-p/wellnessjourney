@@ -21,8 +21,8 @@ $(document).ready(function() {
             });
 
 		  	posting.fail(function(data){
-		  		console.log("Error registering " + JSON.stringify(data));
-		  		$('.confirmEmailMsg').text("Error registering. Please try again!");
+		  		console.log("Error registering: " + JSON.stringify(data.responseJSON));
+                $('.confirmEmailMsg').text(data.responseJSON.message  + "!");
                 $('.text').text('Try again :(');
 
 		  	});
