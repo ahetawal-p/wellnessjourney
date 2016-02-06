@@ -21,7 +21,7 @@ router.get('/signup', function(req, res, next) {
 
 router.get('/delete', function(req, res, next) {
 	var userEmail = req.query.email;
-	dbUtil.query("DELETE FROM USER_TABLE WHERE userEmail=($1)", [userEmail])
+	dbUtil.query("DELETE FROM salesforce.contact WHERE email=($1)", [userEmail])
 	.done(function(result){
 		res.send("Deleted " + userEmail);
 	},
@@ -36,17 +36,18 @@ router.get('/delete', function(req, res, next) {
 
 router.post('/register', function(req, res, next) {
 	var userEmail = req.body.user_email;
+	var userName = req.body.user_name;
 	console.log("HERE is the email passed.. " + userEmail);
 	//*** TODO : REMOVE THIS LATER
 		userEmail = "amit.hetawal@gmail.com";
 	// ******
 	var confirmToken = generateRandomValueHex(12);
 
-	dbUtil.query("SELECT COUNT(*) FROM USER_TABLE where userEmail=($1)", [userEmail], true)
+	dbUtil.query("SELECT COUNT(*) FROM salesforce.contact where email=($1)", [userEmail], true)
 		.then(function(result){
 			if(result && result.count == 0) {
 				console.log("Inserting");
-				insertNewUser(req, res, userEmail, confirmToken);
+				insertNewUser(req, res, userEmail, userName, confirmToken, next);
 			} else {
 				console.log("Not inserting");
 				return next(new Error('User Already Registered'));
@@ -60,7 +61,7 @@ router.get('/confirm', function(req, res, next) {
     var query = url_parts.query;
     var userToken = query.token;
     var userEmail = query.email;
-    dbUtil.query("UPDATE USER_TABLE set isConfirmed=($1), updatedAt=($2) where userEmail=($3) and token=($4) and isConfirmed=($5)", ["true", new Date(), userEmail, userToken, "false"])
+    dbUtil.query("UPDATE salesforce.contact set \"testAmit__wellness_onboarded__c\"=($1) where email=($2) and \"testAmit__email_validation_token__c\"=($3) and \"testAmit__wellness_onboarded__c\"=($4)", ["true", userEmail, userToken, "false"])
     	.done(function(updateCount){
     			console.log("UPDATE COUNT IS >> " + updateCount);
     			if(updateCount == 1){
@@ -76,8 +77,8 @@ router.get('/confirm', function(req, res, next) {
 });
 
 
-var insertNewUser = function(req, res, userEmail, confirmToken){
-	dbUtil.query("INSERT INTO USER_TABLE (userEmail, token) values ($1, $2)", [userEmail, confirmToken])
+var insertNewUser = function(req, res, userEmail, userName, confirmToken, next){
+	dbUtil.query("INSERT INTO salesforce.contact (email, \"testAmit__email_validation_token__c\", lastname, name) values ($1, $2, $3, $3)", [userEmail, confirmToken, userName])
 				.then(function(result){
 					var emailBody = templateUtil.getConfirmEmailHTML(req.hostname, req.app.settings.port, confirmToken, userEmail);
 					return emailUtil.sendMail(emailBody, userEmail);

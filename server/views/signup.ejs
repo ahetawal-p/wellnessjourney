@@ -13,9 +13,11 @@
 	  	  	<span class="loader"></span>
 	  	  </header>
 		  <form class="login-form" >
+		  	<input type="text" placeholder="Name" id="name-input" class="login-input" autocomplete="off"/>
 		  	<input type="text" placeholder="Salesforce Email" class="login-input" id="email-input" autocomplete="off"/>
 		  	<span id="email-input-error" class="emailvalidator"></span>
 		  	<span id="validation-msg" class="formValidatorMsg">Enter a valid salesforce.com address</span>
+		  	<span id="name-validation-msg" class="formValidatorMsg">Name is required !</span>
 		  	<button type="submit" class="login-btn">login</button>
 		  </form>
 		  <div class="confirmEmailMsg">Onboarded! Check your email for confirmation code.</div>

@@ -11,11 +11,17 @@ $(document).ready(function() {
 		  e.preventDefault();
 		  var email = "";
 		  email = $("#email-input").val();
+          var name = $("#name-input").val();
 		  if(!isValidEmailAddress(email)){
 		  	$("#validation-msg").show();
-		  } else {
+		  }else if(!name || name.trim().length == 0){
+            $("#name-validation-msg").show();
+          }else {
 		  	$('.login').removeClass('focused').addClass('loading');
-		 	var posting = $.post( "/register", { user_email:  email.trim()});
+		 	var posting = $.post( "/register", { 
+                    user_email:  email.trim(),
+                    user_name:   name.trim()
+                });
 		 	posting.done(function(data){
 		  		$('.text').text('Get Ready...');
             });
