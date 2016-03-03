@@ -28,6 +28,7 @@ var sendMail = function(content, toEmail) {
 	var deferred = Q.defer();
 	smtpTransport.sendMail(payload, function(error) {
 		if (error) {
+			console.log(error);
 		 	deferred.reject(error);
 		 } else {
 	  		deferred.resolve("Success");

@@ -8,7 +8,6 @@ var dbUtil = require('../util/dbutil.js');
 
 /* GET users listing. */
 router.post('/notify', function(req, res, next) {
-  console.log(req.body);
   var newSurveyObj = req.body.new[0];
   console.log(newSurveyObj);
   var contactId = newSurveyObj.testAmit__Contact_ID__c;
@@ -20,7 +19,7 @@ router.post('/notify', function(req, res, next) {
 			console.log(result);
 			var emailBody = templateUtil.getNotifyNewSurveyEmail(surveyLink, surveyName, 'notify-new-survey.ejs');
 			console.log(emailBody);
-			return emailUtil.sendMail(emailBody, result);
+			return emailUtil.sendMail(emailBody, result.email);
 	}).done(function(successResult){
 							console.log("Sucess >> " + successResult);
 							res.send('Success');
