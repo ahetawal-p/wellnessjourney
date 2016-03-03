@@ -1,11 +1,13 @@
 var ejs = require('ejs');
 var fs = require('fs');
 var path = require('path');
-var confirmEmailBody = fs.readFileSync(path.join(__dirname, '../views/confirm-email.ejs'), 'utf8');
+
 var querystring = require("querystring");
 
-var getConfirmEmailHTML = function(host, port, registerToken, userEmail){
+var getConfirmEmailHTML = function(host, port, registerToken, userEmail, templateName){
 	var baseUrl;
+	var templateLocation = '../views/' + templateName;
+	var confirmEmailBody = fs.readFileSync(path.join(__dirname, templateLocation), 'utf8');
 	if(host == 'localhost'){
 		baseUrl = "http://" + host + ":" + port + "/";
 	}else {
@@ -19,6 +21,24 @@ var getConfirmEmailHTML = function(host, port, registerToken, userEmail){
 	var html = ejs.render(confirmEmailBody, { url: registerUrl, image: imageUrl });
 	return html;
 }
+
+
+var getNotifyNewSurveyEmail = function(surveyLink, templateName){
+	var baseUrl;
+	var templateLocation = '../views/' + templateName;
+	var confirmEmailBody = fs.readFileSync(path.join(__dirname, templateLocation), 'utf8');
+	if(host == 'localhost'){
+		baseUrl = "http://" + host + ":" + port + "/";
+	}else {
+		baseUrl = "http://" + host + "/";
+	}
+	
+	var imageUrl = baseUrl + "images/journey.jpg";
+	var html = ejs.render(confirmEmailBody, { url: surveyLink, image: imageUrl });
+	return html;
+}
+
+
 
 module.exports = {
     getConfirmEmailHTML : getConfirmEmailHTML
