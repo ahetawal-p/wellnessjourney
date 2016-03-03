@@ -39,7 +39,7 @@ router.post('/register', function(req, res, next) {
 	var userName = req.body.user_name;
 	console.log("HERE is the email passed.. " + userEmail);
 	//*** TODO : REMOVE THIS LATER
-		userEmail = "amit.hetawal@gmail.com";
+		//userEmail = "amit.hetawal@gmail.com";
 	// ******
 	var confirmToken = generateRandomValueHex(12);
 
