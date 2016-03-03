@@ -16,14 +16,14 @@ var smtpTransport = mailer.createTransport({
 });
 
 var payload = {
-           	from: "Wellness Journey Team<do-not-reply@gmail.com>",
-            subject: "Wellness Journey Confirm Email",
-		    };
+           	from: "Wellness Journey Team<do-not-reply@gmail.com>"
+            };
 
 
-var sendMail = function(content, toEmail) {
+var sendMail = function(content, toEmail, subject) {
 	payload.html = content;
 	payload.to = toEmail;
+	payload.subject = subject;
 
 	var deferred = Q.defer();
 	smtpTransport.sendMail(payload, function(error) {

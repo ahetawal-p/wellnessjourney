@@ -81,7 +81,7 @@ var insertNewUser = function(req, res, userEmail, userName, confirmToken, next){
 	dbUtil.query("INSERT INTO salesforce.contact (email, testAmit__email_validation_token__c, lastname, name) values ($1, $2, $3, $3)", [userEmail, confirmToken, userName])
 				.then(function(result){
 					var emailBody = templateUtil.getConfirmEmailHTML(req.hostname, req.app.settings.port, confirmToken, userEmail, 'confirm-email.ejs');
-					return emailUtil.sendMail(emailBody, userEmail);
+					return emailUtil.sendMail(emailBody, userEmail, 'Wellness Journey Confirm Email');
 				}).done(function(successResult){
 							console.log("Sucess >> " + successResult);
 							res.send('Success');

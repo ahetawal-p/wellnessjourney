@@ -19,7 +19,7 @@ router.post('/notify', function(req, res, next) {
 			console.log(result);
 			var emailBody = templateUtil.getNotifyNewSurveyEmail(surveyLink, surveyName, 'notify-new-survey.ejs');
 			console.log(emailBody);
-			return emailUtil.sendMail(emailBody, result.email);
+			return emailUtil.sendMail(emailBody, result.email, 'Wellness Journey New Survey Notification');
 	}).done(function(successResult){
 							console.log("Sucess >> " + successResult);
 							res.send('Success');

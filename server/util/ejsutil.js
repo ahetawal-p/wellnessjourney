@@ -41,5 +41,6 @@ var getNotifyNewSurveyEmail = function(surveyLink, surveyName, templateName){
 
 
 module.exports = {
-    getConfirmEmailHTML : getConfirmEmailHTML
+    getConfirmEmailHTML : getConfirmEmailHTML,
+    getNotifyNewSurveyEmail: getNotifyNewSurveyEmail
 };
