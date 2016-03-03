@@ -23,7 +23,7 @@ var getConfirmEmailHTML = function(host, port, registerToken, userEmail, templat
 }
 
 
-var getNotifyNewSurveyEmail = function(surveyLink, surveyName, templateName){
+var getNotifyNewSurveyEmail = function(host, port, surveyLink, surveyName, templateName){
 	var baseUrl;
 	var templateLocation = '../views/' + templateName;
 	var confirmEmailBody = fs.readFileSync(path.join(__dirname, templateLocation), 'utf8');
