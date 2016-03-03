@@ -31,7 +31,7 @@ var sendMail = function(content, toEmail, subject) {
 			console.log(error);
 		 	deferred.reject(error);
 		 } else {
-	  		deferred.resolve("Success");
+	  		deferred.resolve("Successfully sent...");
 	  	}
 
 	});

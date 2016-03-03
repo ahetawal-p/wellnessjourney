@@ -16,9 +16,7 @@ router.post('/notify', function(req, res, next) {
  	
   dbUtil.query("SELECT email FROM salesforce.contact where sfid=($1)", [contactId], true)
 		.then(function(result){
-			console.log(result);
 			var emailBody = templateUtil.getNotifyNewSurveyEmail(req.hostname, req.app.settings.port, surveyLink, surveyName, 'notify-new-survey.ejs');
-			console.log(emailBody);
 			return emailUtil.sendMail(emailBody, result.email, 'Wellness Journey New Survey Notification');
 	}).done(function(successResult){
 							console.log("Sucess >> " + successResult);
