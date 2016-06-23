@@ -15,7 +15,8 @@ var client = new twilio.RestClient(accountSid, authToken);
 var router = express.Router();
 
 /* GET home page. */
-router.get('/sendsms', function(req, res, next) {
+router.post('/sendsms', function(req, res, next) {
+	console.log(req.body);
 	client.messages.create({
     body: 'Hello from Salesforce',
     to: '+14156402834',  // Text this number
